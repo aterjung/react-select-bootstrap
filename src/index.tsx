@@ -2,19 +2,26 @@ import React from "react";
 import ReactSelect from "react-select";
 import AsyncSelect from 'react-select/async';
 import { StateManagerProps } from "react-select/dist/declarations/src/useStateManager";
+import CreatableSelect from "react-select/creatable";
 
 export type ReactSelectBootstrapProps = StateManagerProps & {
   isInvalid?: boolean;
+  async: boolean;
+  creatable: boolean;
 };
 
 export const ReactSelectBootstrap = ({
                                        isInvalid = false,
                                         async = false,
+                                        creatable = false,
                                         classNames = {},
                                        ...props
                                      }: ReactSelectBootstrapProps) => {
 
-  const Component = async ? AsyncSelect : ReactSelect;
+  // Explicitly type the Component as React.ComponentType
+  const Component: React.ComponentType<StateManagerProps> =
+    creatable ? CreatableSelect : async ? AsyncSelect : ReactSelect;
+
   return (
     <Component
       {...props}
